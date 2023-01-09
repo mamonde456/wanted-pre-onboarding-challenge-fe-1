@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { createGlobalStyle } from "styled-components";
 import { isLogged } from "./atom";
+import Header from "./components/Header";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -68,36 +68,17 @@ a {
 `;
 
 function Root() {
-  const [islogged, setIslogged] = useRecoilState(isLogged);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLogged);
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      setIslogged(true);
+      setIsLoggedIn(true);
     }
-  }, [islogged]);
+  }, [isLoggedIn]);
 
-  const onLogout = () => {
-    setIslogged(false);
-    localStorage.removeItem("token");
-  };
   return (
     <div>
       <GlobalStyle />
-      <header>
-        <p>
-          <Link to="/">home</Link>
-        </p>
-        {!islogged ? (
-          <p>
-            <Link to="auth">login</Link>
-          </p>
-        ) : (
-          <p>
-            <Link to="/" onClick={onLogout}>
-              logout
-            </Link>
-          </p>
-        )}
-      </header>
+      <Header />
       <Outlet />
     </div>
   );

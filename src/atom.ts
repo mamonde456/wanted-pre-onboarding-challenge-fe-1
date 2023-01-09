@@ -14,3 +14,8 @@ export const isChange = atom<boolean>({
   key: "isChange",
   default: false,
 });
+
+export const errorMsg = atom<String | null>({
+  key: "errorMsg",
+  default: null,
+});
