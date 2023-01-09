@@ -3,22 +3,38 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { IUser, userAPi } from "../api";
-import { isLogged } from "../atom";
+import { errorMsg, isLogged } from "../atom";
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 400px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  form {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    #button {
+      border-radius: 10px;
+      border: solid 1px rgba(0, 0, 0, 0.5);
+      padding: 10px;
+    }
+    p {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
 `;
 
-const Notification = styled.p`
-  width: 100vw;
-  height: 30px;
-  background-color: black;
-  text-align: center;
-  line-height: 30px;
-  color: white;
-  position: absolute;
-  top: 0;
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
 `;
 
 interface IData {
@@ -32,7 +48,7 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const [msg, setMsg] = useState<string | undefined>();
+  const setMsg = useSetRecoilState(errorMsg);
   const seIstLogged = useSetRecoilState(isLogged);
   const navigator = useNavigate();
 
@@ -48,9 +64,7 @@ export default function Login() {
   const passwordMatch = (password: string) => {
     return passwordRegEx.test(password);
   };
-
-  const setLoginInit = ({ message, token }: IData) => {
-    setMsg(message);
+  const setLoginInit = ({ token }: IData) => {
     seIstLogged(true);
     localStorage.setItem("token", token);
     navigator("/");
@@ -67,8 +81,17 @@ export default function Login() {
       const data = await userAPi(user);
       if (data.token) {
         setLoginInit(data);
+      } else {
+        setMsg("비밀번호가 틀렸습니다.");
+        timeOut(2000);
       }
     }
+  };
+
+  const timeOut = (time: number) => {
+    setTimeout(() => {
+      setMsg(null);
+    }, time);
   };
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -80,11 +103,10 @@ export default function Login() {
   };
   return (
     <Wrapper>
-      {msg && <Notification>{msg}</Notification>}
       <form onSubmit={onSubmit}>
         <p>
           <label htmlFor="id">email</label>
-          <input
+          <Input
             type="text"
             id="id"
             name="email"
@@ -94,7 +116,7 @@ export default function Login() {
         </p>
         <p>
           <label htmlFor="pw">password</label>
-          <input
+          <Input
             type="text"
             id="pw"
             name="password"
@@ -104,7 +126,8 @@ export default function Login() {
         </p>
         <input
           type="submit"
-          value="login"
+          value="Login / Sing up"
+          id="button"
           disabled={
             passwordMatch(user.password) && emailMatch(user.email)
               ? false
