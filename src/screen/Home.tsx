@@ -17,7 +17,7 @@ import GetTodos, { ITodos } from "../components/GetTodos";
 
 const Wrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  margin-top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,6 +39,11 @@ const Box = styled.div`
   border-radius: 10px;
 `;
 
+const ToDosBox = styled.div`
+  height: 460px;
+  position: relative;
+`;
+
 export default function Home() {
   const isLoggedIn = useRecoilValue(isLogged);
   const id = useRecoilValue(todoId);
@@ -49,10 +54,10 @@ export default function Home() {
           <h1>To do list</h1>
 
           {isLoggedIn ? (
-            <>
+            <ToDosBox>
               <GetTodos />
               <CreateTodoList />
-            </>
+            </ToDosBox>
           ) : (
             <p>로그인 해주세요</p>
           )}

@@ -12,22 +12,28 @@ import { getTodosApi, ITodo } from "../api";
 import { isChange, todoId } from "../atom";
 
 const Todos = styled.ul`
+  width: 100%;
+  max-height: 320px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-y: scroll;
+  position: absolute;
+  top: 0;
   /* align-items: center; */
 `;
 
 const Todo = styled.li`
-  width: 100%;
   padding: 10px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+`;
+
+const Box = styled.div`
   display: flex;
   justify-content: space-between;
-  p {
-    display: flex;
-    background: red;
-  }
 `;
 
 export interface ITodos extends ITodo {
@@ -57,8 +63,10 @@ export default function GetTodos() {
               onClick={(event) => setId(event.currentTarget.dataset.id)}
             >
               <Link to={el.id}>
-                <span>{el.title}</span>
-                <span>{el.createdAt.substring(0, 10)}</span>
+                <Box>
+                  <span>{el.title}</span>
+                  <span>{el.createdAt.substring(0, 10)}</span>
+                </Box>
               </Link>
             </Todo>
           ))}
