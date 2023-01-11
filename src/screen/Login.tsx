@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { IUser, userAPi } from "../api";
-import { errorMsg, isLogged } from "../atom";
+import { isLogged } from "../atom";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -48,7 +48,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const setMsg = useSetRecoilState(errorMsg);
   const seIstLogged = useSetRecoilState(isLogged);
   const navigator = useNavigate();
 
@@ -82,16 +81,8 @@ export default function Login() {
       if (data.token) {
         setLoginInit(data);
       } else {
-        setMsg("비밀번호가 틀렸습니다.");
-        timeOut(2000);
       }
     }
-  };
-
-  const timeOut = (time: number) => {
-    setTimeout(() => {
-      setMsg(null);
-    }, time);
   };
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
