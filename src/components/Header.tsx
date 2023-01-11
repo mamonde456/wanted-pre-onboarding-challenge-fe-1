@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { errorMsg, isLogged } from "../atom";
+import { isLogged } from "../atom";
 
 const Wrapper = styled.header`
   width: 100vw;
@@ -16,21 +16,9 @@ const Wrapper = styled.header`
     justify-content: center;
   }
 `;
-const Notification = styled.p`
-  width: 100vw;
-  height: 30px;
-  background-color: black;
-  text-align: center;
-  line-height: 30px;
-  color: white;
-  position: absolute;
-  bottom: -30px;
-  left: 0;
-`;
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLogged);
-  const msg = useRecoilValue(errorMsg);
 
   const onLogout = () => {
     setIsLoggedIn(false);
@@ -38,7 +26,6 @@ export default function Header() {
   };
   return (
     <Wrapper>
-      {msg && <Notification>{msg}</Notification>}
       <nav>
         <p>
           <Link to="/">home</Link>
