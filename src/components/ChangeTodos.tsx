@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   deleteTodoApi,
   getTodoByIdApi,
@@ -10,11 +10,18 @@ import {
   ITodo,
   updateTodoApi,
 } from "../api";
-import { isChange, todoId } from "../atom";
+import { isChange, isChoosen, isModalOpen, todoId } from "../atom";
 import { ITodos } from "./GetTodos";
+import { Modal } from "./Modal";
 
 export default function ChangeTodos() {
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isOpen, setIsOpen] = useRecoilState(isModalOpen);
+  const [isModalChoosen, setIsModalChoosen] = useRecoilState(isChoosen);
+  const [modalType, setModalType] = useState({
+    title: "",
+    actionType: "",
+  });
   const params = useParams();
   const setChangeTodo = useSetRecoilState(isChange);
   const [todo, setTodo] = useState<ITodo>({
@@ -25,6 +32,25 @@ export default function ChangeTodos() {
   useEffect(() => {
     setIsDisabled(false);
   }, [params.id]);
+
+  useEffect(() => {
+    if (isModalChoosen && modalType.actionType === "delete") {
+      const config = {
+        id: id || "",
+        token: token || "",
+      };
+      deleteTodoFn.mutate(config);
+    } else if (isModalChoosen && modalType.actionType === "update") {
+      const newTodo = {
+        ...todo,
+        id: id || "",
+        token: token || "",
+      };
+      updateTodoFn.mutate(newTodo);
+    }
+    setIsModalChoosen(false);
+  }, [isModalChoosen]);
+
   const id = useRecoilValue(todoId);
   const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
@@ -56,14 +82,11 @@ export default function ChangeTodos() {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     if (!isDisabled) return;
     event.preventDefault();
-    console.log(todo);
-
-    const newTodo = {
-      ...todo,
-      id: id || "",
-      token: token || "",
-    };
-    updateTodoFn.mutate(newTodo);
+    setIsOpen(true);
+    setModalType({
+      title: data?.title || "",
+      actionType: "update",
+    });
   };
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
@@ -76,14 +99,17 @@ export default function ChangeTodos() {
     });
   };
   const onDelete = () => {
-    const config = {
-      id: id || "",
-      token: token || "",
-    };
-    deleteTodoFn.mutate(config);
+    setIsOpen(true);
+    setModalType({
+      title: data?.title || "",
+      actionType: "delete",
+    });
   };
   return (
     <>
+      {isOpen && (
+        <Modal actionType={modalType.actionType} title={modalType.title} />
+      )}
       {isLoading ? (
         <p>...is loading</p>
       ) : (
