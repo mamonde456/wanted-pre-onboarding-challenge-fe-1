@@ -15,7 +15,12 @@ export const isChange = atom<boolean>({
   default: false,
 });
 
-export const errorMsg = atom<String | null>({
-  key: "errorMsg",
-  default: null,
+export const isChoosen = atom<boolean>({
+  key: "isModalChoosen",
+  default: false,
+});
+
+export const isModalOpen = atom<boolean>({
+  key: "ismodalOpen",
+  default: false,
 });
