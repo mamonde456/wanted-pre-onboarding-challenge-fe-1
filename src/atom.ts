@@ -1,4 +1,13 @@
 import { atom } from "recoil";
+import { IUser } from "./api";
+
+export const userAtom = atom<IUser>({
+  key: "user",
+  default: {
+    email: "",
+    password: "",
+  },
+});
 
 export const isLogged = atom<boolean>({
   key: "isLogged",
@@ -23,4 +32,9 @@ export const isChoosen = atom<boolean>({
 export const isModalOpen = atom<boolean>({
   key: "ismodalOpen",
   default: false,
+});
+
+export const noticeMsgAtom = atom<string | null>({
+  key: "errorMsg",
+  default: null,
 });
