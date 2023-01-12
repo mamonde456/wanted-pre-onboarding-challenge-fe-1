@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { createTodoApi, ITodo } from "../api";
-import { isChange } from "../atom";
+import { isChange, noticeMsgAtom } from "../atom";
 
 const Form = styled.form`
   width: 100%;
@@ -27,18 +27,23 @@ const Form = styled.form`
 
 export default function CreateTodoList() {
   const setChangeTodo = useSetRecoilState(isChange);
+  const setNoticeMsg = useSetRecoilState(noticeMsgAtom);
   const [createTodo, setCreateTodo] = useState<ITodo>({
     title: "",
     content: "",
   });
+  const formRef = useRef<HTMLFormElement>(null);
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    const data = await createTodoApi(createTodo, token || "");
-    if (data) {
-      console.log("성공", data);
+    const newTodo = await createTodoApi(createTodo, token || "");
+    if (newTodo) {
+      console.log("성공", newTodo);
+      setNoticeMsg(`할 일 ${newTodo.title}가 생성되었습니다.`);
       setChangeTodo((prev) => !prev);
-      event.currentTarget.reset();
+      if (!formRef) return;
+      formRef?.current?.reset();
     }
   };
 
@@ -50,7 +55,7 @@ export default function CreateTodoList() {
   };
   return (
     <>
-      <Form onSubmit={onSubmit}>
+      <Form ref={formRef} onSubmit={onSubmit}>
         <p>
           <label htmlFor="title">title</label>
           <input type="text" id="title" name="title" onChange={onChange} />
