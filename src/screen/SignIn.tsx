@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { Link, useMatch } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { IUser, userAPi } from "../api";
-import { isLogged } from "../atom";
+import { isLogged, noticeMsgAtom, userAtom } from "../atom";
+import { emailMatch, passwordMatch } from "../until";
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 400px;
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -16,6 +17,8 @@ const Wrapper = styled.div`
     padding: 10px;
     display: flex;
     flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
     gap: 10px;
     #button {
       border-radius: 10px;
@@ -37,52 +40,38 @@ const Input = styled.input`
   border-radius: 10px;
 `;
 
-interface IData {
-  message: string;
-  token: string;
-  details?: string;
-}
-
-export default function Login() {
-  const [user, setUser] = useState<IUser>({
-    email: "",
-    password: "",
-  });
+export default function SignIn() {
+  const [user, setUser] = useRecoilState(userAtom);
   const seIstLogged = useSetRecoilState(isLogged);
+  const setNoticeMSg = useSetRecoilState(noticeMsgAtom);
   const navigator = useNavigate();
+  const signUpMatch = useMatch("/auth/sign-up");
 
-  const emailRegEx =
-    /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
-
-  const passwordRegEx = /^[A-Za-z0-9]{8,20}$/;
-
-  const emailMatch = (email: string) => {
-    return emailRegEx.test(email);
-  };
-
-  const passwordMatch = (password: string) => {
-    return passwordRegEx.test(password);
-  };
-  const setLoginInit = ({ token }: IData) => {
+  const handleToken = (token?: string, message?: string, details?: string) => {
+    if (!token) {
+      console.clear();
+      return setNoticeMSg(details || null);
+    }
     seIstLogged(true);
+    setNoticeMSg(message || null);
     localStorage.setItem("token", token);
     navigator("/");
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // login api
-    const data = await userAPi(user, "login");
-    if (data.token) {
-      setLoginInit(data);
-    } else {
-      // signUp api
-      const data = await userAPi(user);
-      if (data.token) {
-        setLoginInit(data);
-      } else {
-      }
+    console.log(user, signUpMatch);
+    const { password, confirmPassword } = user;
+    if (password !== confirmPassword)
+      return setNoticeMSg("비밀번호가 같지 않습니다.");
+
+    if (signUpMatch) {
+      const { token, message, details } = await userAPi(user, "create");
+      return handleToken(token, message, details);
     }
+    // login api
+    const { token, message, details } = await userAPi(user, "login");
+    handleToken(token, message, details);
   };
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -115,6 +104,7 @@ export default function Login() {
             value={user.password}
           />
         </p>
+        <Outlet context={setUser} />
         <input
           type="submit"
           value="Login / Sing up"
@@ -125,6 +115,8 @@ export default function Login() {
               : true
           }
         />
+        <hr />
+        <Link to="sign-up">Sign Up</Link>
       </form>
     </Wrapper>
   );
