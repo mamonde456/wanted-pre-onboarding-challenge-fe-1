@@ -1,11 +1,16 @@
 export interface IUser {
   email: string;
   password: string;
+  confirmPassword?: string;
+  username?: string;
+  location?: string;
 }
 
 export const userAPi = async ({ email, password }: IUser, login?: string) => {
   const response = await fetch(
-    `${process.env.REACT_APP_API_URL}/users/${login ? "login" : "create"}`,
+    `${process.env.REACT_APP_API_URL}/users/${
+      login === "login" ? "login" : "create"
+    }`,
     {
       method: "post",
       headers: {
@@ -40,7 +45,10 @@ export const createTodoApi = async (
       content,
     }),
   });
-  return await response.json();
+
+  const { data: newTodo } = await response.json();
+
+  return newTodo;
 };
 
 export const getTodosApi = async (token: string) => {
