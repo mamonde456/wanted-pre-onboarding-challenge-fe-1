@@ -11,6 +11,7 @@ import {
   updateTodoApi,
 } from "../api";
 import { isChange, isChoosen, isModalOpen, todoId } from "../atom";
+import { DeleteTodo, UpdateTodo } from "./EditTodo";
 import { ITodos } from "./GetTodos";
 import { Modal } from "./Modal";
 
@@ -22,62 +23,37 @@ export default function ChangeTodos() {
     title: "",
     actionType: "",
   });
+  const id = useRecoilValue(todoId);
+  const updateTodoFn = UpdateTodo();
+  const deleteTodoFn = DeleteTodo();
+  const token = localStorage.getItem("token");
   const params = useParams();
-  const setChangeTodo = useSetRecoilState(isChange);
+
   const [todo, setTodo] = useState<ITodo>({
     title: "",
     content: "",
   });
+  const { isLoading, data } = useQuery<ITodos>(["todo", id], () =>
+    getTodoByIdApi(token || "", id || "")
+  );
 
   useEffect(() => {
     setIsDisabled(false);
   }, [params.id]);
 
   useEffect(() => {
+    const config = {
+      ...todo,
+      id: id || "",
+      token: token || "",
+    };
     if (isModalChoosen && modalType.actionType === "delete") {
-      const config = {
-        id: id || "",
-        token: token || "",
-      };
       deleteTodoFn.mutate(config);
     } else if (isModalChoosen && modalType.actionType === "update") {
-      const newTodo = {
-        ...todo,
-        id: id || "",
-        token: token || "",
-      };
-      updateTodoFn.mutate(newTodo);
+      updateTodoFn.mutate(config);
     }
     setIsModalChoosen(false);
   }, [isModalChoosen]);
-
-  const id = useRecoilValue(todoId);
-  const token = localStorage.getItem("token");
-  const queryClient = useQueryClient();
-  const { isLoading, data } = useQuery<ITodos>(["todo", id], () =>
-    getTodoByIdApi(token || "", id || "")
-  );
-
-  const updateTodoFn = useMutation(
-    (newTodo: INewTodo) => updateTodoApi(newTodo),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["todo", id]);
-        setChangeTodo((prev) => !prev);
-      },
-      onError: () => {
-        console.log("실패");
-      },
-    }
-  );
-
-  const deleteTodoFn = useMutation((config: IDelete) => deleteTodoApi(config), {
-    onSuccess: () => {
-      console.log("성공");
-      queryClient.invalidateQueries(["todo", id]);
-      setChangeTodo((prev) => !prev);
-    },
-  });
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     if (!isDisabled) return;
@@ -88,6 +64,7 @@ export default function ChangeTodos() {
       actionType: "update",
     });
   };
+
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
       currentTarget: { name, value },
@@ -98,6 +75,7 @@ export default function ChangeTodos() {
       [name]: value,
     });
   };
+
   const onDelete = () => {
     setIsOpen(true);
     setModalType({
@@ -105,6 +83,7 @@ export default function ChangeTodos() {
       actionType: "delete",
     });
   };
+
   return (
     <>
       {isOpen && (
