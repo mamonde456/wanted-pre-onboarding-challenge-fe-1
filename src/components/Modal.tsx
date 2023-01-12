@@ -3,18 +3,6 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { isChoosen, isModalOpen } from "../atom";
 
-const Notification = styled.p`
-  width: 100vw;
-  height: 30px;
-  background-color: black;
-  text-align: center;
-  line-height: 30px;
-  color: white;
-  position: absolute;
-  bottom: -30px;
-  left: 0;
-`;
-
 const Wrapper = styled.div`
   width: 300px;
   height: 200px;
@@ -52,7 +40,7 @@ export function Modal({ actionType, title: todoTitle }: IProps) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [is, setIsChoosen] = useRecoilState(isChoosen);
-  //   const setIsChoosen = useSetRecoilState(isChoosen);
+
   const setIsModalOpen = useSetRecoilState(isModalOpen);
   useEffect(() => {
     if (actionType === "delete") {
@@ -72,9 +60,7 @@ export function Modal({ actionType, title: todoTitle }: IProps) {
       <div>
         <button
           onClick={() => {
-            console.log("Test", is);
             setIsChoosen((prev) => !prev);
-            console.log("Test", is);
             setIsModalOpen(false);
           }}
         >
