@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { noticeMsgAtom } from "../atom";
 
@@ -15,8 +15,8 @@ const Notification = styled.p`
   left: 0;
 `;
 
-export default function Notice({ noticeMsg }: any) {
-  const setNoticeMsg = useSetRecoilState(noticeMsgAtom);
+export default function Notice() {
+  const [noticeMsg, setNoticeMsg] = useRecoilState(noticeMsgAtom);
   useEffect(() => {
     const timer = setTimeout(() => {
       setNoticeMsg(null);

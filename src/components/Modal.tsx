@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { isChoosen, isModalOpen } from "../atom";
 
@@ -39,7 +39,7 @@ interface IProps {
 export function Modal({ actionType, title: todoTitle }: IProps) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [is, setIsChoosen] = useRecoilState(isChoosen);
+  const setIsChoosen = useSetRecoilState(isChoosen);
 
   const setIsModalOpen = useSetRecoilState(isModalOpen);
   useEffect(() => {
