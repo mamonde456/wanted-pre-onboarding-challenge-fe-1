@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  deleteTodoApi,
-  getTodoByIdApi,
-  IDelete,
-  INewTodo,
-  ITodo,
-  updateTodoApi,
-} from "../api";
-import { isChange, isChoosen, isModalOpen, todoId } from "../atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { getTodoByIdApi, ITodo } from "../api";
+import { isChoosen, isModalOpen, todoId } from "../atom";
 import { DeleteTodo, UpdateTodo } from "./EditTodo";
 import { ITodos } from "./GetTodos";
 import { Modal } from "./Modal";
@@ -24,8 +17,6 @@ export default function ChangeTodos() {
     actionType: "",
   });
   const id = useRecoilValue(todoId);
-  const updateTodoFn = UpdateTodo();
-  const deleteTodoFn = DeleteTodo();
   const token = localStorage.getItem("token");
   const params = useParams();
 
@@ -47,9 +38,12 @@ export default function ChangeTodos() {
       id: id || "",
       token: token || "",
     };
+
     if (isModalChoosen && modalType.actionType === "delete") {
+      const deleteTodoFn = DeleteTodo();
       deleteTodoFn.mutate(config);
     } else if (isModalChoosen && modalType.actionType === "update") {
+      const updateTodoFn = UpdateTodo();
       updateTodoFn.mutate(config);
     }
     setIsModalChoosen(false);

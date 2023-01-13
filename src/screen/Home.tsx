@@ -1,17 +1,9 @@
 import { Outlet } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import {
-  deleteTodoApi,
-  getTodoByIdApi,
-  IDelete,
-  INewTodo,
-  ITodo,
-  updateTodoApi,
-} from "../api";
-import { isChange, isLogged, todoId } from "../atom";
+import { isLogged, todoId } from "../atom";
 import CreateTodoList from "../components/CreateTodoList";
-import GetTodos, { ITodos } from "../components/GetTodos";
+import GetTodos from "../components/GetTodos";
 
 const Wrapper = styled.div`
   width: 100vw;

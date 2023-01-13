@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { deleteTodoApi, IDelete, INewTodo, updateTodoApi } from "../api";

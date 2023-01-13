@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useMatch } from "react-router-dom";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { IUser, userAPi } from "../api";
+import { userAPi } from "../api";
 import { isLogged, noticeMsgAtom, userAtom } from "../atom";
 import { emailMatch, passwordMatch } from "../until";
 
