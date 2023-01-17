@@ -2,8 +2,9 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { getTodosApi, ITodo } from "../api";
-import { isChange, todoId } from "../atom";
+import { getTodosApi } from "../../api/getTodos";
+import { isChange, todoId } from "../../atom";
+import { ITodos } from "../../types/todo";
 
 const Todos = styled.ul`
   width: 100%;
@@ -30,11 +31,6 @@ const Box = styled.div`
   justify-content: space-between;
 `;
 
-export interface ITodos extends ITodo {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-}
 export default function GetTodos() {
   const setId = useSetRecoilState<string | undefined>(todoId);
   const isChangeValue = useRecoilValue(isChange);
@@ -58,7 +54,7 @@ export default function GetTodos() {
             >
               <Link to={el.id}>
                 <Box>
-                  <span>{el.title}</span>
+                  <span>{el?.title}</span>
                   <span>{el.createdAt.substring(0, 10)}</span>
                 </Box>
               </Link>

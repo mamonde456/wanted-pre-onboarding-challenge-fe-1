@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { IUser } from "./api";
+import { IUser } from "./types/auth";
 
 export const userAtom = atom<IUser>({
   key: "user",
@@ -29,7 +29,12 @@ export const isChoosen = atom<boolean>({
   default: false,
 });
 
-export const isModalOpen = atom<boolean>({
+export const isDisabledAtom = atom<boolean>({
+  key: "isDisabled",
+  default: false,
+});
+
+export const isModalOpenAtom = atom<boolean>({
   key: "ismodalOpen",
   default: false,
 });

@@ -28,7 +28,7 @@ export default function Header() {
   };
   return (
     <Wrapper>
-      <Notice noticeMsg={noticeMsg} />
+      {noticeMsg && <Notice />}
       <nav>
         <p>
           <Link to="/">home</Link>

@@ -2,8 +2,8 @@ import { Outlet } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { isLogged, todoId } from "../atom";
-import CreateTodoList from "../components/CreateTodoList";
-import GetTodos from "../components/GetTodos";
+import CreateTodoList from "../components/toDo/CreateTodoList";
+import GetTodos from "../components/toDo/GetTodos";
 
 const Wrapper = styled.div`
   width: 100vw;

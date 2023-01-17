@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { createTodoApi, ITodo } from "../api";
-import { isChange, noticeMsgAtom } from "../atom";
+import { createTodoApi } from "../../api/createTodo";
+import { isChange, noticeMsgAtom } from "../../atom";
+import useCreate from "../../hook/mutation/useCreate";
+import { ITodo } from "../../types/todo";
 
 const Form = styled.form`
   width: 100%;
@@ -26,32 +28,25 @@ const Form = styled.form`
 `;
 
 export default function CreateTodoList() {
-  const setChangeTodo = useSetRecoilState(isChange);
-  const setNoticeMsg = useSetRecoilState(noticeMsgAtom);
-  const [createTodo, setCreateTodo] = useState<ITodo>({
+  const [toDo, setTodo] = useState<ITodo>({
     title: "",
     content: "",
   });
+  const createTodo = useCreate();
   const formRef = useRef<HTMLFormElement>(null);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const token = localStorage.getItem("token");
-    const newTodo = await createTodoApi(createTodo, token || "");
-    if (newTodo) {
-      console.log("성공", newTodo);
-      setNoticeMsg(`할 일 ${newTodo.title}가 생성되었습니다.`);
-      setChangeTodo((prev) => !prev);
-      if (!formRef) return;
-      formRef?.current?.reset();
-    }
+    createTodo.mutate(toDo);
+    if (!formRef) return;
+    formRef?.current?.reset();
   };
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     const {
       currentTarget: { name, value },
     } = event;
-    setCreateTodo({ ...createTodo, [name]: value });
+    setTodo({ ...toDo, [name]: value });
   };
   return (
     <>
