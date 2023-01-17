@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import ChangeTodos from "./components/ChangeTodos";
-import SignUp from "./components/SignUp";
+import SignUp from "./components/auth/SignUp";
+import ChangeTodos from "./components/toDo/ChangeTodos";
+
 import Root from "./Root";
 import Home from "./screen/Home";
-import SignIn from "./screen/SignIn";
+import Login from "./screen/Login";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "auth",
-        element: <SignIn />,
+        element: <Login />,
         children: [
           {
             path: "sign-up",
