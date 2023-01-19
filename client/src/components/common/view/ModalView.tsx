@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { IModal } from "../../../types/modal";
+import { IModalViewProps } from "../../../types/common/modal";
 
 const Wrapper = styled.div`
-  width: 300px;
-  height: 200px;
+  width: 320px;
+  height: 230px;
   padding: 10px;
   background-color: white;
   border: solid 1px rgba(0, 0, 0, 0.5);
@@ -27,6 +27,10 @@ const Wrapper = styled.div`
 `;
 const Title = styled.p`
   font-size: 18px;
+  word-break: break-all;
+  span {
+    font-weight: 700;
+  }
 `;
 
 export default function ModalView({
@@ -34,13 +38,15 @@ export default function ModalView({
   setIsModalOpen,
   toDoTitle,
   actionType,
-}: IModal) {
+}: IModalViewProps) {
   return (
     <Wrapper>
       <div>
         {actionType === "delete" ? (
           <>
-            <Title>{toDoTitle}을(를) 삭제할까요?</Title>
+            <Title>
+              <span>{toDoTitle}</span>을(를) 삭제할까요?
+            </Title>
             <p>이 동작은 복구할 수 없습니다. 할 일에서 영구히 삭제됩니다.</p>
           </>
         ) : (
