@@ -7,18 +7,19 @@ import GetTodos from "../components/toDo/GetTodos";
 
 const Wrapper = styled.div`
   width: 100vw;
-  margin-top: 100px;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  h1 {
+    font-size: 28px;
+  }
 `;
 
 const BoxList = styled.div`
   padding: 10px;
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
-  /* align-items: center; */
 `;
 
 const Box = styled.div`
@@ -30,8 +31,13 @@ const Box = styled.div`
 `;
 
 const ToDosBox = styled.div`
-  height: 460px;
+  height: 450px;
   position: relative;
+`;
+
+const TextBox = styled.div`
+  padding: 10px;
+  font-size: 18px;
 `;
 
 export default function Home() {
@@ -49,7 +55,9 @@ export default function Home() {
               <CreateTodo />
             </ToDosBox>
           ) : (
-            <p>로그인 해주세요</p>
+            <TextBox>
+              <p>로그인 해주세요</p>
+            </TextBox>
           )}
         </Box>
         {id && (
