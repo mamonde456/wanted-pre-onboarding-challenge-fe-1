@@ -1,10 +1,8 @@
 import { useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import styled from "styled-components";
-import { createTodoApi } from "../../api/createTodo";
-import { isChange, noticeMsgAtom } from "../../atom";
+import { noticeMsgAtom } from "../../atom";
 import useCreate from "../../hook/mutation/useCreate";
-import { ICreateToDoProps, ITodo } from "../../types/todo";
+import { ICreateToDoProps, ITodo } from "../../types/toDo/todo";
 import CreateTodoView from "./views/CreateTodoView";
 
 export default function CreateTodo() {
