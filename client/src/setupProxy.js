@@ -5,6 +5,10 @@ module.exports = function (app) {
     createProxyMiddleware("/users", {
       target: "http://localhost:8080",
       changeOrigin: true,
+    }),
+    createProxyMiddleware("/todos", {
+      target: "http://localhost:8080",
+      changeOrigin: true,
     })
   );
 };
