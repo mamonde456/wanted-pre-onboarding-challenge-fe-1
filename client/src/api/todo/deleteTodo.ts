@@ -1,7 +1,7 @@
-import { IDelete } from "../types/todo";
+import { IDelete } from "../../types/toDo/todo";
 
 export const deleteTodoApi = async ({ token, id }: IDelete) => {
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/todos/${id}`, {
+  const response = await fetch(`/todos/${id}`, {
     method: "delete",
     headers: {
       Authorization: token,

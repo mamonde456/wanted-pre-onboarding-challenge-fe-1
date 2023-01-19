@@ -1,10 +1,10 @@
-import { ITodo } from "../types/todo";
+import { ITodo } from "../../types/toDo/todo";
 
 export const createTodoApi = async (
   { title, content }: ITodo,
   token: string
 ) => {
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
+  const response = await fetch(`/todos`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",

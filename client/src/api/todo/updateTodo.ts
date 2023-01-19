@@ -1,4 +1,4 @@
-import { INewTodo } from "../types/todo";
+import { INewTodo } from "../../types/toDo/todo";
 
 export const updateTodoApi = async ({
   title,
@@ -6,7 +6,7 @@ export const updateTodoApi = async ({
   token,
   id,
 }: INewTodo) => {
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/todos/${id}`, {
+  const response = await fetch(`/todos/${id}`, {
     method: "put",
     headers: {
       "Content-Type": "application/json",
