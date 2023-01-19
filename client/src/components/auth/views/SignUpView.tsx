@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { IAuth } from "../../../types/auth";
+import { IAuth } from "../../../types/auth/auth";
 import { emailMatch, passwordMatch } from "../../../until";
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 100vh;
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -13,8 +14,6 @@ const Wrapper = styled.div`
     padding: 10px;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
     gap: 10px;
     #button {
       border-radius: 10px;
@@ -26,6 +25,10 @@ const Wrapper = styled.div`
       display: flex;
       flex-direction: column;
       gap: 10px;
+      span {
+        color: #f93939;
+        font-size: 14px;
+      }
     }
   }
 `;
@@ -35,13 +38,21 @@ const Input = styled.input`
   padding: 10px;
   border-radius: 10px;
 `;
-export default function SignUpView({ onChange, onSubmit, user }: IAuth) {
+export default function SignUpView({
+  onChange,
+  onSubmit,
+  user,
+  passwordNotice,
+  confirmNotice,
+  signUpRef,
+}: IAuth) {
   return (
     <Wrapper>
-      <form onSubmit={onSubmit}>
+      <form ref={signUpRef} onSubmit={onSubmit}>
         <p>
           <label htmlFor="username">user name</label>
           <Input
+            required
             type="text"
             id="username"
             name="username"
@@ -51,6 +62,7 @@ export default function SignUpView({ onChange, onSubmit, user }: IAuth) {
         <p>
           <label htmlFor="id">email</label>
           <Input
+            required
             type="text"
             id="id"
             name="email"
@@ -61,21 +73,26 @@ export default function SignUpView({ onChange, onSubmit, user }: IAuth) {
         <p>
           <label htmlFor="pw">password</label>
           <Input
+            required
             type="text"
             id="pw"
             name="password"
             onChange={onChange}
             value={user.password}
           />
+          {passwordNotice && <span>{passwordNotice}</span>}
         </p>
         <p>
           <label htmlFor="confirmPassword">confirm password</label>
           <Input
+            required
             type="text"
             id="confirmPassword"
             name="confirmPassword"
-            onChange={onChange}
+            value={user.confirmPassword}
+            onInput={onChange}
           />
+          <span>{confirmNotice}</span>
         </p>
 
         <p>
@@ -84,12 +101,13 @@ export default function SignUpView({ onChange, onSubmit, user }: IAuth) {
             type="text"
             id="location"
             name="location"
-            onChange={onChange}
+            value={user.location}
+            onInput={onChange}
           />
         </p>
         <input
           type="submit"
-          value="Login / Sing up"
+          value="Sing up"
           id="button"
           disabled={
             passwordMatch(user.password) && emailMatch(user.email)
@@ -97,8 +115,10 @@ export default function SignUpView({ onChange, onSubmit, user }: IAuth) {
               : true
           }
         />
-        <hr />
-        <Link to="/auth">Sign In</Link>
+        <hr style={{ width: "100%" }} />
+        <Link style={{ padding: "0px 10px" }} to="/auth">
+          Sign In
+        </Link>
       </form>
     </Wrapper>
   );
