@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { deleteTodoApi } from "../../api/deleteTodo";
+import { deleteTodoApi } from "../../api/todo/deleteTodo";
 import { isChange, isChoosen, noticeMsgAtom, todoId } from "../../atom";
-import { IDelete } from "../../types/todo";
+import { IDelete } from "../../types/toDo/todo";
 
 export default function useDelete() {
   const queryClient = useQueryClient();
@@ -13,6 +13,7 @@ export default function useDelete() {
   const setToDoId = useSetRecoilState(todoId);
   const id = useRecoilValue(todoId);
   const navigator = useNavigate();
+
   return useMutation((config: IDelete) => deleteTodoApi(config), {
     onSuccess: () => {
       setNoticeMsg("할 일을 삭제했습니다.");

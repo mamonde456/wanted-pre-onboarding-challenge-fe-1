@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { useSetRecoilState } from "recoil";
-import { createTodoApi } from "../../api/createTodo";
+import { createTodoApi } from "../../api/todo/createTodo";
 import { isChange, noticeMsgAtom } from "../../atom";
-import { ITodo } from "../../types/todo";
+import { ITodo } from "../../types/toDo/todo";
 
 export default function useCreate() {
   const setIsChangeTodo = useSetRecoilState(isChange);

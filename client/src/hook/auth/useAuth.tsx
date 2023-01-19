@@ -1,8 +1,8 @@
-import { useMatch, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { userAPi } from "../../api/auth";
+import { userAPi } from "../../api/auth/auth";
 import { isLogged, noticeMsgAtom } from "../../atom";
-import { IUser } from "../../types/auth";
+import { IUser } from "../../types/auth/auth";
 
 export default function useAuth() {
   const setNoticeMsg = useSetRecoilState(noticeMsgAtom);

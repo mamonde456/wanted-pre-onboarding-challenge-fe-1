@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { updateTodoApi } from "../../api/updateTodo";
+import { updateTodoApi } from "../../api/todo/updateTodo";
 import { isChange, isChoosen, noticeMsgAtom, todoId } from "../../atom";
-import { INewTodo } from "../../types/todo";
+import { INewTodo } from "../../types/toDo/todo";
 
 export default function useUpdate() {
   const queryClient = useQueryClient();
@@ -10,6 +10,7 @@ export default function useUpdate() {
   const setIsModalSelete = useSetRecoilState(isChoosen);
   const setNoticeMsg = useSetRecoilState(noticeMsgAtom);
   const id = useRecoilValue(todoId);
+
   return useMutation((newTodo: INewTodo) => updateTodoApi(newTodo), {
     onSuccess: () => {
       setNoticeMsg("할 일을 변경하였습니다.");

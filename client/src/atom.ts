@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { IUser } from "./types/auth";
+import { IUser } from "./types/auth/auth";
 
 export const userAtom = atom<IUser>({
   key: "user",
