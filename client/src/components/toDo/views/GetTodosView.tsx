@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { IGetTodosProps, ITodos } from "../../../types/todo";
+import { IGetTodosProps, ITodos } from "../../../types/toDo/todo";
 
 const Todos = styled.ul`
   width: 100%;
-  max-height: 320px;
+  max-height: 310px;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,14 @@ const Todos = styled.ul`
   overflow-y: scroll;
   position: absolute;
   top: 0;
-  /* align-items: center; */
+  ::-webkit-scrollbar {
+    width: 5px;
+    background: none;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: black;
+  }
 `;
 
 const Todo = styled.li`
@@ -23,6 +30,10 @@ const Todo = styled.li`
     display: block;
     height: 50px;
     padding: 10px;
+  }
+  span:first-child {
+    width: 220px;
+    word-break: break-all;
   }
 `;
 
@@ -48,7 +59,7 @@ export default function GetTodosView({
               <Link to={el.id}>
                 <Box>
                   <span>{el?.title}</span>
-                  <span>{el.createdAt.substring(0, 10)}</span>
+                  <span>{el?.createdAt.substring(0, 10)}</span>
                 </Box>
               </Link>
             </Todo>
