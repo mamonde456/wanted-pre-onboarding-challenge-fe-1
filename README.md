@@ -90,6 +90,72 @@ cd server && npm start //http://localhost:8080
 
 ## 폴더 구조
 
+```
+📦src
+ ┣ 📂api
+ ┃ ┣ 📂auth
+ ┃ ┃ ┗ 📜auth.ts
+ ┃ ┗ 📂todo
+ ┃ ┃ ┣ 📜createTodo.ts
+ ┃ ┃ ┣ 📜deleteTodo.ts
+ ┃ ┃ ┣ 📜getTodoById.ts
+ ┃ ┃ ┣ 📜getTodos.ts
+ ┃ ┃ ┗ 📜updateTodo.ts
+ ┣ 📂components
+ ┃ ┣ 📂auth
+ ┃ ┃ ┣ 📂views
+ ┃ ┃ ┃ ┣ 📜SignInView.tsx
+ ┃ ┃ ┃ ┗ 📜SignUpView.tsx
+ ┃ ┃ ┣ 📜SignIn.tsx
+ ┃ ┃ ┗ 📜SignUp.tsx
+ ┃ ┣ 📂common
+ ┃ ┃ ┣ 📂view
+ ┃ ┃ ┃ ┣ 📜HeaderView.tsx
+ ┃ ┃ ┃ ┣ 📜ModalView.tsx
+ ┃ ┃ ┃ ┗ 📜NoticeView.tsx
+ ┃ ┃ ┣ 📜Header.tsx
+ ┃ ┃ ┣ 📜Modal.tsx
+ ┃ ┃ ┗ 📜Notice.tsx
+ ┃ ┗ 📂toDo
+ ┃ ┃ ┣ 📂views
+ ┃ ┃ ┃ ┣ 📜ChangeTodoView.tsx
+ ┃ ┃ ┃ ┣ 📜CreateTodoView.tsx
+ ┃ ┃ ┃ ┗ 📜GetTodosView.tsx
+ ┃ ┃ ┣ 📜ChangeTodos.tsx
+ ┃ ┃ ┣ 📜CreateTodo.tsx
+ ┃ ┃ ┗ 📜GetTodos.tsx
+ ┣ 📂hook
+ ┃ ┣ 📂auth
+ ┃ ┃ ┗ 📜useAuth.tsx
+ ┃ ┣ 📂mutation
+ ┃ ┃ ┣ 📜useCreate.tsx
+ ┃ ┃ ┣ 📜useDelete.tsx
+ ┃ ┃ ┗ 📜useUpdate.tsx
+ ┃ ┗ 📂query
+ ┃ ┃ ┗ 📜useGetTodoById.tsx
+ ┣ 📂screen
+ ┃ ┣ 📜Home.tsx
+ ┃ ┣ 📜Login.tsx
+ ┃ ┗ 📜NotFound.tsx
+ ┣ 📂types
+ ┃ ┣ 📂auth
+ ┃ ┃ ┗ 📜auth.ts
+ ┃ ┣ 📂common
+ ┃ ┃ ┣ 📜header.ts
+ ┃ ┃ ┣ 📜modal.ts
+ ┃ ┃ ┗ 📜notice.ts
+ ┃ ┗ 📂toDo
+ ┃ ┃ ┗ 📜todo.ts
+ ┣ 📜Root.tsx
+ ┣ 📜Router.tsx
+ ┣ 📜atom.ts
+ ┣ 📜index.tsx
+ ┣ 📜react-app-env.d.ts
+ ┣ 📜setupProxy.js
+ ┣ 📜setupTests.ts
+ ┗ 📜until.ts
+```
+
 코드의 하는 일을 생각하며 작게 분리했습니다.
 api,components, hook, screen,types로 분리하였고, 해당 폴더 안에서도 로그인(auth) 부분과 todo 부분을 폴더로 한 단계 더 분리했습니다. 모달창과 같은 공통적인 일을 하는 컴포넌트들은 common 폴더 안에 넣었고, 하는 일에 따라 hook 내부에서도 auth, mutation, query로 나누었습니다.
 
