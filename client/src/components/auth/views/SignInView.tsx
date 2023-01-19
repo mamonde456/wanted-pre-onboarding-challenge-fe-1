@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { IAuth } from "../../../types/auth";
+import { IAuth } from "../../../types/auth/auth";
 import { emailMatch, passwordMatch } from "../../../until";
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 100vh;
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -36,10 +37,15 @@ const Input = styled.input`
   border-radius: 10px;
 `;
 
-export default function SignInView({ onChange, onSubmit, user }: IAuth) {
+export default function SignInView({
+  onChange,
+  onSubmit,
+  user,
+  signInRef,
+}: IAuth) {
   return (
     <Wrapper>
-      <form onSubmit={onSubmit}>
+      <form ref={signInRef} onSubmit={onSubmit}>
         <p>
           <label htmlFor="id">email</label>
           <Input
@@ -62,7 +68,7 @@ export default function SignInView({ onChange, onSubmit, user }: IAuth) {
         </p>
         <input
           type="submit"
-          value="Login / Sing up"
+          value="Sing In"
           id="button"
           disabled={
             passwordMatch(user.password) && emailMatch(user.email)
@@ -70,8 +76,10 @@ export default function SignInView({ onChange, onSubmit, user }: IAuth) {
               : true
           }
         />
-        <hr />
-        <Link to="sign-up">Sign Up</Link>
+        <hr style={{ width: "100%" }} />
+        <Link style={{ padding: "0px 10px" }} to="sign-up">
+          Sign Up
+        </Link>
       </form>
     </Wrapper>
   );
