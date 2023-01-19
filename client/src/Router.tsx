@@ -5,6 +5,7 @@ import ChangeTodos from "./components/toDo/ChangeTodos";
 import Root from "./Root";
 import Home from "./screen/Home";
 import Login from "./screen/Login";
+import NotFound from "./screen/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
         ],
       },
     ],
+    errorElement: <NotFound />,
   },
 ]);
 
