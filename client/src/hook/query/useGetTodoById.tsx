@@ -1,9 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { getTodoByIdApi } from "../../api/getTodoById";
-import { todoId } from "../../atom";
-import { ITodos } from "../../types/todo";
+import { getTodoByIdApi } from "../../api/todo/getTodoById";
+import { ITodos } from "../../types/toDo/todo";
 
 export default function useGetTodoById(
   id: string | null,
@@ -13,8 +10,7 @@ export default function useGetTodoById(
     try {
       return getTodoByIdApi(token || "", id || "");
     } catch (err) {
-      console.log(err);
-      throw err;
+      throw Error("찾을 수 없습니다.");
     }
   });
   return { isLoading, data };
