@@ -1,10 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import styled from "styled-components";
-import { getTodosApi } from "../../api/getTodos";
+import { getTodosApi } from "../../api/todo/getTodos";
 import { isChange, todoId } from "../../atom";
-import { IGetTodosProps, ITodos } from "../../types/todo";
+import { IGetTodosProps, ITodos } from "../../types/toDo/todo";
 import GetTodosView from "./views/GetTodosView";
 
 export default function GetTodos() {
