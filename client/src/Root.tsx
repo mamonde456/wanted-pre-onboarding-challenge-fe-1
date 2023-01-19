@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { createGlobalStyle } from "styled-components";
-import { isLogged } from "./atom";
+import { isLogged, noticeMsgAtom } from "./atom";
 import Header from "./components/common/Header";
 
 const GlobalStyle = createGlobalStyle`
@@ -69,18 +69,30 @@ a {
 
 function Root() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLogged);
+  const params = useParams();
+  const setNoticeMsg = useSetRecoilState(noticeMsgAtom);
+  const navigator = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      setIsLoggedIn(true);
+      return setIsLoggedIn(true);
+    } else {
+      return setIsLoggedIn(false);
     }
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    if (params.id && !localStorage.getItem("token")) {
+      setNoticeMsg("로그인을 해주세요.");
+      return navigator("auth");
+    }
+  }, [params.id]);
+
   return (
-    <div>
+    <>
       <GlobalStyle />
       <Header />
       <Outlet />
-    </div>
+    </>
   );
 }
 
