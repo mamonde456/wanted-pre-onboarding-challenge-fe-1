@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ICreateToDoProps } from "../../../types/todo";
+import { ICreateToDoProps } from "../../../types/toDo/todo";
 
 const Form = styled.form`
   width: 100%;
@@ -33,11 +33,23 @@ export default function CreateTodoView({
       <input id="button" type="submit" value="Create To do" />
       <p>
         <label htmlFor="title">title</label>
-        <input type="text" id="title" name="title" onChange={onChange} />
+        <input
+          maxLength={28}
+          type="text"
+          id="title"
+          name="title"
+          onChange={onChange}
+        />
       </p>
       <p>
         <label htmlFor="content">content</label>
-        <input type="text" id="content" name="content" onChange={onChange} />
+        <input
+          maxLength={400}
+          type="text"
+          id="content"
+          name="content"
+          onChange={onChange}
+        />
       </p>
     </Form>
   );
