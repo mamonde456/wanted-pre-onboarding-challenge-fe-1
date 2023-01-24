@@ -228,7 +228,7 @@ cd server && npm start
 
 ### 1차
 
-#### [블로그](https://velog.io/@mamonde456/123-csa8twvd)
+#### [1차 개선사항 블로그](https://velog.io/@mamonde456/123-csa8twvd)
 
 1. 모달 기능 구현 ✅<br>
    (todo 삭제/변경 시에 모달로 안내)
@@ -241,6 +241,8 @@ cd server && npm start
    (조금 더 리팩토링 할 수 있는지 생각해보기.)
 
 ### 2-1차
+
+#### [2-1차 개선사항 블로그](https://velog.io/@mamonde456/원티드-프리온보딩-프론트엔드-챌린지-사전-과제-개선-사항-2-1)
 
 1. 컴포넌트 분리 및 리팩토링 후 모달창 로직 수정 ✅
 
