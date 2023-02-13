@@ -3,10 +3,6 @@ const emailRegEx =
 
 const passwordRegEx = /^[A-Za-z0-9]{8,20}$/;
 
-export const emailMatch = (email: string) => {
-  return emailRegEx.test(email);
-};
+export const emailMatch = (email: string) => emailRegEx.test(email);
 
-export const passwordMatch = (password: string) => {
-  return passwordRegEx.test(password);
-};
+export const passwordMatch = (password: string) => passwordRegEx.test(password);
